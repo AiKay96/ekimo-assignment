@@ -1,3 +1,6 @@
+amend:
+	git commit --amend --no-edit -a
+	
 install:
 	uv sync
 
