@@ -7,7 +7,7 @@ from alembic import context
 from src.runner.db import Base
 
 from src.runner.config import settings
-from src.infra import models
+from src.infra.models import User
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
