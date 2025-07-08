@@ -1,15 +1,19 @@
 from typing import Any
 
 import pytest
+from fastapi import FastAPI
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import Session, sessionmaker
 
+from src.infra.fastapi.auth import auth_api
+from src.infra.fastapi.users import user_api
+from src.infra.repositories.users import UserRepository
 from src.runner.config import settings
 from src.runner.db import Base
-from src.runner.setup import get_db, init_app
+from src.runner.setup import get_db
 
-settings.database_url = settings.database_url +"_test"
+settings.database_url = settings.database_url + "_test"
 engine = create_engine(settings.database_url, future=True)
 TestingSessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
 
@@ -34,7 +38,12 @@ def db_session() -> Any:
 
 
 @pytest.fixture
-def client(db_session: Any) -> TestClient:
-    app = init_app()
+def client(db_session: Session) -> TestClient:
+    app = FastAPI()
+
+    app.include_router(user_api)
+    app.include_router(auth_api)
     app.dependency_overrides[get_db] = lambda: db_session
+    app.state.users = UserRepository(db_session)
+
     return TestClient(app)
