@@ -1,14 +1,15 @@
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Protocol
+from decimal import Decimal
 
 
 @dataclass
 class Product:
     id: int
     name: str
-    price: float
-    quantity: float
+    price: Decimal
+    quantity: Decimal
     last_updated: datetime
 
 
