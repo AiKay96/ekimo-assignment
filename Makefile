@@ -31,3 +31,6 @@ test:
 
 test-ci:
 	uv run pytest tests
+
+run:
+	uv run -m src.runner
