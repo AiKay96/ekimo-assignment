@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
 
+from src.infra.fastapi.auth import auth_api
 from src.infra.fastapi.users import user_api
 from src.infra.repositories.users import UserRepository
 from src.runner.config import settings
@@ -26,6 +27,7 @@ def init_app() -> FastAPI:
 
     app = FastAPI()
     app.include_router(user_api)
+    app.include_router(auth_api)
 
     db: Session = next(get_db())
     app.state.users = UserRepository(db)
