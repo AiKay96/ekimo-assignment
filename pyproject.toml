@@ -1,7 +1,53 @@
 [project]
 name = "ekimo-assignment"
 version = "0.1.0"
-description = "Add your description here"
+description = "A FastAPI-based web application for the Ekimo developer assignment."
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+    "fastapi>=0.116.0",
+]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.16.1",
+    "pytest>=8.4.1",
+    "ruff>=0.12.2",
+]
+
+[tool.mypy]
+ignore_missing_imports = true
+strict = true
+
+[tool.ruff]
+line-length = 88
+
+exclude = [
+    ".git",
+    ".mypy_cache",
+    ".ruff_cache",
+    "venv",
+]
+
+[tool.ruff.lint]
+select = [
+    "A",    # flake8-builtins
+    "ARG",  # flake8-unused-arguments
+    "B",    # flake8-bugbear
+    "C4",   # flake8-comprehensions
+    "PT",   # flake8-pytest-style
+    "RSE",  # flake8-raise
+    "RET",  # flake8-return
+    "SIM",  # flake8-simplify
+    "T20",  # flake8-print
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "N",    # pep8-naming
+    "UP",   # pyupgrade
+]
+
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
