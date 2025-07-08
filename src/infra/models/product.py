@@ -10,7 +10,7 @@ from src.runner.db import Base
 class Product(Base):
     __tablename__ = "products"
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String, nullable=False)
     price: Mapped[Decimal] = mapped_column(Numeric, nullable=False)
     quantity: Mapped[Decimal] = mapped_column(Numeric, nullable=False)
