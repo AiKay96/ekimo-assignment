@@ -14,7 +14,11 @@ class ProductRepository:
     def update_many(self, products: list[Product]) -> None:
         for product in products:
             try:
-                existing = self.db.query(ProductModel).filter_by(barcode=product.barcode).first()
+                existing = (
+                    self.db.query(ProductModel)
+                    .filter_by(barcode=product.barcode)
+                    .first()
+                )
                 if existing:
                     existing.name = product.name
                     existing.price = product.price

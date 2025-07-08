@@ -1,9 +1,11 @@
-import pandas as pd
-from io import BytesIO
-from src.core.products import Product, ProductRepository
-from datetime import datetime
-from decimal import Decimal
 from dataclasses import dataclass
+from decimal import Decimal
+from io import BytesIO
+
+import pandas as pd
+
+from src.core.products import Product, ProductRepository
+
 
 @dataclass
 class ProductService:
@@ -17,10 +19,9 @@ class ProductService:
     def _read_file(self, file: BytesIO, filename: str) -> pd.DataFrame:
         if filename.endswith(".csv"):
             return pd.read_csv(file)
-        elif filename.endswith(".xlsx"):
+        if filename.endswith(".xlsx"):
             return pd.read_excel(file)
-        else:
-            raise ValueError("Unsupported file format")
+        raise ValueError("Unsupported file format")
 
     def _parse_products(self, df: pd.DataFrame) -> list[Product]:
         return [
