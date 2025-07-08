@@ -38,13 +38,12 @@ class UserItemEnvelope(BaseModel):
     status_code=201,
     response_model=UserItemEnvelope,
 )
-def create_user(
+def register(
     request: CreateUserRequest, users: UserRepositoryDependable
 ) -> dict[str, Any] | JSONResponse:
     try:
         user = User(**request.model_dump())
         users.create(user)
-
         response_data = extract_user_fields(user)
         return {"user": response_data}
 
