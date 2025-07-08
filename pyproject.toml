@@ -5,7 +5,12 @@ description = "A FastAPI-based web application for the Ekimo developer assignmen
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+    "alembic>=1.12.1",
     "fastapi>=0.116.0",
+    "psycopg2-binary>=2.9.7",
+    "pydantic-settings>=2.1.0",
+    "sqlalchemy>=2.0.23",
+    "uvicorn[standard]>=0.24.0",
 ]
 
 [dependency-groups]
