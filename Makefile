@@ -18,7 +18,7 @@ format-unsafe:
 	uv run ruff check src tests --fix --unsafe-fixes
 
 lint:
-	uv check
+	uv pip check
 	uv run ruff format src tests --check
 	uv run ruff check src tests
 	uv run mypy src tests
