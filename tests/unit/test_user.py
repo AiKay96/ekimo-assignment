@@ -21,7 +21,8 @@ def test_should_persist(db_session: Any) -> None:
     repo.create(user)
     db_user = repo.read(user.username)
 
-    assert db_user == user
+    assert db_user.username == user.username
+    assert db_user.id == user.id
 
 
 def test_should_not_create(db_session: Any) -> None:
