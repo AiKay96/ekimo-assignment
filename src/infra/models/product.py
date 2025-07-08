@@ -15,3 +15,4 @@ class Product(Base):
     price: Mapped[Decimal] = mapped_column(Numeric, nullable=False)
     quantity: Mapped[Decimal] = mapped_column(Numeric, nullable=False)
     last_updated: Mapped[datetime] = mapped_column(DateTime, nullable=False)
+    barcode: Mapped[int] = mapped_column(Integer, nullable=False, unique=True, index=True)

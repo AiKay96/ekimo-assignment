@@ -11,11 +11,10 @@ class Product:
     price: Decimal
     quantity: Decimal
     last_updated: datetime
+    barcode: int
 
 
 class ProductRepository(Protocol):
-    def create_many(self, products: list[Product]) -> None:
-        pass
 
     def update_many(self, products: list[Product]) -> None:
         pass
