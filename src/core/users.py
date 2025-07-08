@@ -14,3 +14,6 @@ class User:
 class UserRepository(Protocol):
     def create(self, user: User) -> User:
         pass
+
+    def read(self, username: str) -> User:
+        pass
