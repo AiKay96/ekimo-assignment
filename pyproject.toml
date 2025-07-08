@@ -7,8 +7,9 @@ requires-python = ">=3.11"
 dependencies = [
     "alembic>=1.12.1",
     "dotenv>=0.9.9",
+    "faker>=37.4.0",
     "fastapi>=0.116.0",
-    "passlib>=1.7.4",
+    "httpx>=0.28.1",
     "psycopg2-binary>=2.9.7",
     "pydantic-settings>=2.1.0",
     "python-dotenv>=1.1.1",
