@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 
@@ -8,9 +10,9 @@ from src.infra.models.user import User as UserModel
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
+@dataclass
 class UserRepository:
-    def __init__(self, db: Session):
-        self.db = db
+    db: Session
 
     def create(self, user: User) -> None:
         if self.db.query(UserModel).filter_by(username=user.username).first():
