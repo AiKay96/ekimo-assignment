@@ -1,14 +1,16 @@
 from collections.abc import Generator
 
+from fastapi import FastAPI
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Session, sessionmaker
 
+from src.infra.fastapi.users import user_api
+from src.infra.repositories.users import UserRepository
 from src.runner.config import settings
+from src.runner.db import Base
 
 engine = create_engine(settings.database_url)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-Base = declarative_base()
 
 
 def get_db() -> Generator[Session, None, None]:
@@ -19,6 +21,13 @@ def get_db() -> Generator[Session, None, None]:
         db.close()
 
 
-def init_app() -> None:
-    # For Later
-    pass
+def init_app() -> FastAPI:
+    Base.metadata.create_all(bind=engine)
+
+    app = FastAPI()
+    app.include_router(user_api)
+
+    db: Session = next(get_db())
+    app.state.users = UserRepository(db)
+
+    return app
