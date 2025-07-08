@@ -30,4 +30,4 @@ test:
 		--approvaltests-use-reporter='PythonNative'
 
 test-ci:
-	uv run pytest src tests
+	uv run pytest tests

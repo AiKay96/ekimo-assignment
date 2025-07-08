@@ -9,8 +9,7 @@ from src.runner.config import settings
 from src.runner.db import Base
 from src.runner.setup import get_db, init_app
 
-url = settings.database_url + "test"
-engine = create_engine(url, future=True)
+engine = create_engine(settings.database_url + "_test", future=True)
 TestingSessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
 
 

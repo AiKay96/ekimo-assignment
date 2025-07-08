@@ -43,7 +43,7 @@ jobs:
         with:
           username: admin
           password: admin
-          database: ekimotest
+          database: ekimo_test
           port: 5432
           postgres-version: "14"
           ssl: true

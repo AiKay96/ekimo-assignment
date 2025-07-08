@@ -5,7 +5,6 @@ from tests.fake import Fake
 
 def test_should_create(client: TestClient) -> None:
     user = Fake().user_dict()
-
     response = client.post("/users", json=user)
 
     assert response.status_code == 201
