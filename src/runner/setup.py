@@ -5,7 +5,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
 
 from src.infra.fastapi.auth import auth_api
+from src.infra.fastapi.products import product_api
 from src.infra.fastapi.users import user_api
+from src.infra.repositories.products import ProductRepository
 from src.infra.repositories.users import UserRepository
 from src.runner.config import settings
 from src.runner.db import Base
@@ -28,8 +30,10 @@ def init_app() -> FastAPI:
     app = FastAPI()
     app.include_router(user_api)
     app.include_router(auth_api)
+    app.include_router(product_api)
 
     db: Session = next(get_db())
     app.state.users = UserRepository(db)
+    app.state.products = ProductRepository(db)
 
     return app

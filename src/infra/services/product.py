@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from decimal import Decimal
 from io import BytesIO
 
-import pandas as pd
+import pandas
 
 from src.core.products import Product, ProductRepository
 
@@ -16,21 +16,21 @@ class ProductService:
         products = self._parse_products(df)
         self.repo.update_many(products)
 
-    def _read_file(self, file: BytesIO, filename: str) -> pd.DataFrame:
+    def _read_file(self, file: BytesIO, filename: str) -> pandas.DataFrame:
         if filename.endswith(".csv"):
-            return pd.read_csv(file)
+            return pandas.read_csv(file)
         if filename.endswith(".xlsx"):
-            return pd.read_excel(file)
+            return pandas.read_excel(file)
         raise ValueError("Unsupported file format")
 
-    def _parse_products(self, df: pd.DataFrame) -> list[Product]:
+    def _parse_products(self, df: pandas.DataFrame) -> list[Product]:
         return [
             Product(
                 name=row["name"],
                 price=Decimal(str(row["price"])),
                 quantity=Decimal(str(row["quantity"])),
-                last_updated=pd.to_datetime(row["last_updated"]),
-                barcode=row.get["barcode"],
+                last_updated=pandas.to_datetime(row["last_updated"]),
+                barcode=row["barcode"],
             )
             for _, row in df.iterrows()
         ]

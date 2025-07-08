@@ -18,3 +18,17 @@ class Product(Base):
     barcode: Mapped[int] = mapped_column(
         Integer, nullable=False, unique=True, index=True
     )
+
+    def __init__(
+        self,
+        name: str,
+        price: Decimal,
+        quantity: Decimal,
+        last_updated: datetime,
+        barcode: int,
+    ) -> None:
+        self.name = name
+        self.price = price
+        self.quantity = quantity
+        self.last_updated = last_updated
+        self.barcode = barcode

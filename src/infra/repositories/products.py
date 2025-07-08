@@ -25,7 +25,14 @@ class ProductRepository:
                     existing.quantity = product.quantity
                     existing.last_updated = product.last_updated
                 else:
-                    self.db.add(product)
+                    product_model = ProductModel(
+                        name=product.name,
+                        price=product.price,
+                        quantity=product.quantity,
+                        last_updated=product.last_updated,
+                        barcode=product.barcode,
+                    )
+                    self.db.add(product_model)
                 self.db.commit()
             except SQLAlchemyError:
                 self.db.rollback()

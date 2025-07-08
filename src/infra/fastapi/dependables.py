@@ -4,6 +4,7 @@ from fastapi import Depends, HTTPException, Request
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 
+from src.core.products import ProductRepository
 from src.core.users import UserRepository
 from src.runner.config import settings
 
@@ -13,6 +14,15 @@ def get_user_repository(request: Request) -> UserRepository:
 
 
 UserRepositoryDependable = Annotated[UserRepository, Depends(get_user_repository)]
+
+
+def get_product_repository(request: Request) -> ProductRepository:
+    return request.app.state.products  # type: ignore
+
+
+ProductRepositoryDependable = Annotated[
+    ProductRepository, Depends(get_product_repository)
+]
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth")
 
