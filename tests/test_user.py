@@ -1,2 +1,2 @@
-def test_should_pass():
+def test_should_pass() -> None:
     assert True
