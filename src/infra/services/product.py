@@ -16,14 +16,22 @@ class ProductService:
         products = self._parse_products(df)
         self.repo.update_many(products)
 
-    def _read_file(self, file: BytesIO, filename: str) -> pandas.DataFrame:
+    def filter_products(self, file: BytesIO, filename: str) -> list[Product]:
+        df = self._read_file(file, filename)
+        incoming = self._parse_products(df)
+        existing = self.repo.read_all()
+        return self._filter_updated_or_new(existing, incoming)
+
+    @staticmethod
+    def _read_file(file: BytesIO, filename: str) -> pandas.DataFrame:
         if filename.endswith(".csv"):
             return pandas.read_csv(file)
         if filename.endswith(".xlsx"):
             return pandas.read_excel(file)
         raise ValueError("Unsupported file format")
 
-    def _parse_products(self, df: pandas.DataFrame) -> list[Product]:
+    @staticmethod
+    def _parse_products(df: pandas.DataFrame) -> list[Product]:
         return [
             Product(
                 name=row["name"],
@@ -34,3 +42,24 @@ class ProductService:
             )
             for _, row in df.iterrows()
         ]
+
+    @staticmethod
+    def _filter_updated_or_new(
+        existing_products: list[Product], incoming_products: list[Product]
+    ) -> list[Product]:
+        existing_map = {product.barcode: product for product in existing_products}
+
+        return [
+            product
+            for product in incoming_products
+            if (existing := existing_map.get(product.barcode)) is None
+            or ProductService._has_changed(product, existing)
+        ]
+
+    @staticmethod
+    def _has_changed(incoming_product: Product, existing_product: Product) -> bool:
+        return incoming_product.barcode == existing_product.barcode and (
+            incoming_product.name != existing_product.name
+            or incoming_product.price != existing_product.price
+            or incoming_product.quantity != existing_product.quantity
+        )

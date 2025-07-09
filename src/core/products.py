@@ -19,3 +19,6 @@ class Product:
 class ProductRepository(Protocol):
     def update_many(self, products: list[Product]) -> None:
         pass
+
+    def read_all(self) -> list[Product]:
+        pass

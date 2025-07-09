@@ -37,3 +37,17 @@ class ProductRepository:
                 self.db.commit()
             except SQLAlchemyError:
                 self.db.rollback()
+
+    def read_all(self) -> list[Product]:
+        products = self.db.query(ProductModel).all()
+        return [
+            Product(
+                id=product.id,
+                name=product.name,
+                price=product.price,
+                quantity=product.quantity,
+                last_updated=product.last_updated,
+                barcode=product.barcode,
+            )
+            for product in products
+        ]
