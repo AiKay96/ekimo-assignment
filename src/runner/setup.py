@@ -1,5 +1,6 @@
 from collections.abc import Generator
 
+from apscheduler.schedulers.background import BackgroundScheduler
 from fastapi import FastAPI
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
@@ -37,6 +38,20 @@ def init_app() -> FastAPI:
     db: Session = next(get_db())
     app.state.users = UserRepository(db)
     app.state.products = ProductRepository(db)
+
+    @app.on_event("startup")
+    def start_sync_scheduler() -> None:
+        scheduler = BackgroundScheduler()
+        scheduler.add_job(
+            init_sync().sync, "interval", minutes=settings.sync_interval_minutes
+        )
+        scheduler.start()
+        app.state.scheduler = scheduler
+
+    @app.on_event("shutdown")
+    def stop_sync_scheduler() -> None:
+        scheduler = app.state.scheduler
+        scheduler.shutdown(wait=False)
 
     return app
 

@@ -21,12 +21,11 @@ class ProductSynchronization:
         return str(response.json()["access_token"])
 
     def sync(self) -> None:
-        token = self._auth()
-
         unsynced = self.service.read_unsyched_products()
         if not unsynced:
             return
 
+        token = self._auth()
         payload = [
             {
                 "id": product.id,

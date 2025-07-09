@@ -17,4 +17,5 @@ def run(host: str = "127.0.0.1", port: int = 8000) -> None:
 
 @cli.command()
 def sync() -> None:
+    load_dotenv()
     init_sync().sync()
