@@ -33,4 +33,7 @@ test-ci:
 	uv run pytest tests
 
 run:
-	uv run -m src.runner
+	uv run -m src.runner run
+
+sync:
+	uv run -m src.runner sync

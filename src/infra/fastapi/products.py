@@ -55,10 +55,11 @@ def upload_products(
     response_model=None,
 )
 def sync_products(
-    repo: ProductRepositoryDependable, products: SycProductsRequest
+    repo: ProductRepositoryDependable,
+    products: SycProductsRequest,
+    user: str = Depends(get_current_user),  # noqa: ARG001
 ) -> dict[str, Any] | JSONResponse:
     service = ProductService(repo)
-
     try:
         service.sync_products(products.products)
         return {"message": "Products synced successfully"}

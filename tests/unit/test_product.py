@@ -23,6 +23,7 @@ def test_should_update_product(db_session: Any) -> None:
 
     assert db_product.name == updated.name
 
+
 def test_should_mark_product_as_synced(db_session: Any) -> None:
     repo = ProductRepository(db_session)
 

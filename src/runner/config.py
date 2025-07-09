@@ -13,6 +13,9 @@ class Settings:
     access_token_expire_minutes: int = int(
         os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "30")
     )
+    username: str = os.getenv("USERNAME", "admin")
+    password: str = os.getenv("PASSWORD", "admin")
+    base_url: str = os.getenv("BASE_URL", "http://localhost:8000/")
 
 
 settings = Settings()

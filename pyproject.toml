@@ -18,9 +18,11 @@ dependencies = [
     "python-dotenv>=1.1.1",
     "python-jose[cryptography]>=3.5.0",
     "python-multipart>=0.0.20",
+    "requests>=2.32.4",
     "sqlalchemy>=2.0.23",
     "sqlalchemy-orm>=1.2.10",
     "typer>=0.16.0",
+    "types-requests>=2.32.4.20250611",
     "uvicorn[standard]>=0.24.0",
 ]
 

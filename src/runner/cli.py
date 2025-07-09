@@ -4,7 +4,7 @@ import uvicorn
 from dotenv import load_dotenv
 from typer import Typer
 
-from src.runner.setup import init_app
+from src.runner.setup import init_app, init_sync
 
 cli = Typer(no_args_is_help=True, add_completion=False)
 
@@ -13,3 +13,8 @@ cli = Typer(no_args_is_help=True, add_completion=False)
 def run(host: str = "127.0.0.1", port: int = 8000) -> None:
     load_dotenv()
     uvicorn.run(app=init_app(), host=host, port=port)
+
+
+@cli.command()
+def sync() -> None:
+    init_sync().sync()

@@ -9,6 +9,8 @@ from src.infra.fastapi.products import product_api
 from src.infra.fastapi.users import user_api
 from src.infra.repositories.products import ProductRepository
 from src.infra.repositories.users import UserRepository
+from src.infra.services.product import ProductService
+from src.infra.services.sync import ProductSynchronization
 from src.runner.config import settings
 from src.runner.db import Base
 
@@ -37,3 +39,8 @@ def init_app() -> FastAPI:
     app.state.products = ProductRepository(db)
 
     return app
+
+
+def init_sync() -> ProductSynchronization:
+    db: Session = next(get_db())
+    return ProductSynchronization(ProductService(ProductRepository(db)))
