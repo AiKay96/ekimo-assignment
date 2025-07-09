@@ -18,7 +18,7 @@ class Product:
 
 
 class ProductRepository(Protocol):
-    def update_many(self, products: list[Product]) -> None:
+    def update_many(self, products: list[Product], synching: bool = False) -> None:
         pass
 
     def read_many_unsynched(self) -> list[Product]:

@@ -19,7 +19,7 @@ class ProductService:
     def sync_products(self, products: list[Product]) -> None:
         for product in products:
             product.is_synched = True
-        self.repo.update_many(products)
+        self.repo.update_many(products, synching=True)
 
     def read_unsyched_products(self) -> list[Product]:
         return self.repo.read_many_unsynched()
