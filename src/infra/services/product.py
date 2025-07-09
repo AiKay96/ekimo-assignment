@@ -18,9 +18,9 @@ class ProductService:
 
     def filter_products(self, file: BytesIO, filename: str) -> list[Product]:
         df = self._read_file(file, filename)
-        incoming = self._parse_products(df)
-        existing = self.repo.read_all()
-        return self._filter_updated_or_new(existing, incoming)
+        source = self._parse_products(df)
+        target = self.repo.read_all()
+        return self._filter_updated_or_new(target, source)
 
     @staticmethod
     def _read_file(file: BytesIO, filename: str) -> pandas.DataFrame:
@@ -45,21 +45,21 @@ class ProductService:
 
     @staticmethod
     def _filter_updated_or_new(
-        existing_products: list[Product], incoming_products: list[Product]
+        target: list[Product], source: list[Product]
     ) -> list[Product]:
-        existing_map = {product.barcode: product for product in existing_products}
+        target_map = {product.barcode: product for product in target}
 
         return [
             product
-            for product in incoming_products
-            if (existing := existing_map.get(product.barcode)) is None
-            or ProductService._has_changed(product, existing)
+            for product in source
+            if (target_product := target_map.get(product.barcode)) is None
+            or ProductService._has_changed(product, target_product)
         ]
 
     @staticmethod
-    def _has_changed(incoming_product: Product, existing_product: Product) -> bool:
-        return incoming_product.barcode == existing_product.barcode and (
-            incoming_product.name != existing_product.name
-            or incoming_product.price != existing_product.price
-            or incoming_product.quantity != existing_product.quantity
+    def _has_changed(product_1: Product, product_2: Product) -> bool:
+        return product_1.barcode == product_2.barcode and (
+            product_1.name != product_2.name
+            or product_1.price != product_2.price
+            or product_1.quantity != product_2.quantity
         )
