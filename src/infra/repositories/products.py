@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from datetime import datetime
 
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
@@ -23,13 +24,13 @@ class ProductRepository:
                     existing.name = product.name
                     existing.price = product.price
                     existing.quantity = product.quantity
-                    existing.last_updated = product.last_updated
+                    existing.last_updated = datetime.utcnow()
                 else:
                     product_model = ProductModel(
                         name=product.name,
                         price=product.price,
                         quantity=product.quantity,
-                        last_updated=product.last_updated,
+                        last_updated=datetime.utcnow(),
                         barcode=product.barcode,
                     )
                     self.db.add(product_model)

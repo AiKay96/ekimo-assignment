@@ -1,7 +1,7 @@
 from datetime import datetime
 from decimal import Decimal
 
-from sqlalchemy import DateTime, Integer, Numeric, String
+from sqlalchemy import BigInteger, DateTime, Integer, Numeric, String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from src.runner.db import Base
@@ -15,9 +15,7 @@ class Product(Base):
     price: Mapped[Decimal] = mapped_column(Numeric, nullable=False)
     quantity: Mapped[Decimal] = mapped_column(Numeric, nullable=False)
     last_updated: Mapped[datetime] = mapped_column(DateTime, nullable=False)
-    barcode: Mapped[int] = mapped_column(
-        Integer, nullable=False, unique=True, index=True
-    )
+    barcode: Mapped[int] = mapped_column(BigInteger, nullable=False, unique=True)
 
     def __init__(
         self,
