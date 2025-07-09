@@ -1,6 +1,6 @@
 import io
 
-import pandas as pd
+import pandas
 from fastapi.testclient import TestClient
 
 from tests.fake import Fake
@@ -13,7 +13,7 @@ def test_should_upload_products(client: TestClient) -> None:
     response = client.post("/auth", data=user)
     token = response.json()["access_token"]
 
-    df = pd.DataFrame(
+    df = pandas.DataFrame(
         [
             Fake().product_dict(),
             Fake().product_dict(),
