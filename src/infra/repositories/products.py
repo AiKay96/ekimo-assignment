@@ -13,8 +13,10 @@ class ProductRepository:
     db: Session
 
     def update_many(self, products: list[Product]) -> None:
-        for product in products:
-            try:
+        try:
+            new_products = []
+
+            for product in products:
                 existing = (
                     self.db.query(ProductModel)
                     .filter_by(barcode=product.barcode)
@@ -33,11 +35,14 @@ class ProductRepository:
                         last_updated=datetime.utcnow(),
                         barcode=product.barcode,
                     )
-                    self.db.add(product_model)
-                self.db.commit()
-            except SQLAlchemyError:
-                self.db.rollback()
-        self.db.commit()
+                    new_products.append(product_model)
+
+            if new_products:
+                self.db.add_all(new_products)
+
+            self.db.commit()
+        except SQLAlchemyError:
+            self.db.rollback()
 
     def read_many_unsynched(self) -> list[Product]:
         products = self.db.query(ProductModel).filter_by(is_synced=False).all()
