@@ -1,13 +1,11 @@
 from dataclasses import dataclass
 
-from passlib.context import CryptContext
+import bcrypt
 from sqlalchemy.orm import Session
 
 from src.core.errors import DoesNotExistError, ExistsError
 from src.core.users import User
 from src.infra.models.user import User as UserModel
-
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 @dataclass
@@ -20,7 +18,9 @@ class UserRepository:
 
         db_user = UserModel(
             username=user.username,
-            hashed_password=pwd_context.hash(user.password),
+            hashed_password=bcrypt.hashpw(
+                user.password.encode(), bcrypt.gensalt()
+            ).decode(),
             user_id=user.id,
         )
         self.db.add(db_user)

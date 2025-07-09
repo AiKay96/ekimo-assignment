@@ -2,14 +2,12 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import Any
 
+import bcrypt
 from jose import jwt
-from passlib.context import CryptContext
 
 from src.core.errors import DoesNotExistError
 from src.core.users import UserRepository
 from src.runner.config import settings
-
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 @dataclass
@@ -18,7 +16,7 @@ class AuthService:
 
     def authenticate(self, username: str, password: str) -> Any:
         user = self.users.read(username)
-        if not user or not pwd_context.verify(password, user.password):
+        if not user or not bcrypt.checkpw(password.encode(), user.password.encode()):
             raise DoesNotExistError("Invalid credentials")
 
         payload = {
