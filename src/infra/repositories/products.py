@@ -32,6 +32,7 @@ class ProductRepository:
                         quantity=product.quantity,
                         last_updated=datetime.utcnow(),
                         barcode=product.barcode,
+                        is_synced=False,
                     )
                     self.db.add(product_model)
                 self.db.commit()
@@ -48,6 +49,7 @@ class ProductRepository:
                 quantity=product.quantity,
                 last_updated=product.last_updated,
                 barcode=product.barcode,
+                is_synched=product.is_synced,
             )
             for product in products
         ]

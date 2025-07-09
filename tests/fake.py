@@ -30,6 +30,7 @@ class Fake:
             ),
             "last_updated": self.faker.date_time_this_year(),
             "barcode": self.faker.random_int(min=1000000000, max=9999999999),
+            "is_synced": self.faker.boolean(),
         }
 
     def product(self) -> Any:

@@ -12,6 +12,7 @@ class Product:
     quantity: Decimal
     last_updated: datetime
     barcode: int
+    is_synched: bool = False
 
     id: int = field(default_factory=lambda: uuid4().int >> 64)
 
