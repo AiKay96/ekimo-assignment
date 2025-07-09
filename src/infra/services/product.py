@@ -27,7 +27,7 @@ class ProductService:
         if filename.endswith(".csv"):
             return pandas.read_csv(file)
         if filename.endswith(".xlsx"):
-            return pandas.read_excel(file)
+            return pandas.read_excel(file, engine="openpyxl")
         raise ValueError("Unsupported file format")
 
     @staticmethod

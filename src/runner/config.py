@@ -1,9 +1,12 @@
 import os
 from dataclasses import dataclass
 
+from dotenv import load_dotenv
+
 
 @dataclass
 class Settings:
+    load_dotenv()
     database_url: str = os.getenv(
         "DATABASE_URL", "postgresql://admin:admin@localhost:5432/ekimo"
     )
@@ -14,7 +17,7 @@ class Settings:
     )
     username: str = os.getenv("USERNAME", "admin")
     password: str = os.getenv("PASSWORD", "admin")
-    base_url: str = os.getenv("BASE_URL", "http://localhost:8000/")
+    base_url: str = os.getenv("BASE_URL", "http://localhost:8000")
     sync_interval_minutes: int = int(os.getenv("SYNC_INTERVAL_MINUTES", "10"))
 
 

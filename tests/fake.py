@@ -24,8 +24,8 @@ class Fake:
     def product_dict(self) -> dict[str, Any]:
         return {
             "name": self.faker.word(),
-            "price": self.faker.pydecimal(left_digits=3, right_digits=2, positive=True),
-            "quantity": self.faker.pydecimal(
+            "price": self.faker.pyfloat(left_digits=3, right_digits=2, positive=True),
+            "quantity": self.faker.pyfloat(
                 left_digits=2, right_digits=0, positive=True
             ),
             "last_updated": self.faker.date_time_this_year(),

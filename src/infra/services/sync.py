@@ -12,7 +12,7 @@ class ProductSynchronization:
 
     def _auth(self) -> str:
         response = requests.post(
-            f"{settings.base_url}auth",
+            f"{settings.base_url}/auth",
             data={
                 "username": settings.username,
                 "password": settings.password,
@@ -37,9 +37,8 @@ class ProductSynchronization:
             }
             for product in unsynced
         ]
-
         response = requests.post(
-            f"{settings.base_url}products",
+            f"{settings.base_url}/products",
             json={"products": payload},
             headers={"Authorization": f"Bearer {token}"},
         )

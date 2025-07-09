@@ -1,0 +1,3 @@
+name,price,quantity,last_updated,barcode
+Test Product A,19.99,10,2025-07-09T12:00:00,808080808080
+Test Product B,5.50,3,2025-07-08T15:30:00,79161498123
