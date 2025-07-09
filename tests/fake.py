@@ -33,6 +33,6 @@ class Fake:
             "is_synched": self.faker.boolean(),
         }
 
-    def product(self) -> Any:
+    def product(self) -> Product:
         data = self.product_dict()
         return Product(**data)

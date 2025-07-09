@@ -1,16 +1,17 @@
+from unittest.mock import MagicMock, patch
+
 import pytest
-from unittest.mock import patch, MagicMock
+
+from src.core.products import Product
 from src.infra.services.product import ProductService
 from src.infra.services.sync import ProductSynchronization
-from src.infra.fastapi.products import product_api
-from datetime import datetime
-from decimal import Decimal
-from src.core.products import Product
 from tests.fake import Fake
+
 
 @pytest.fixture
 def product() -> Product:
     return Fake().product()
+
 
 @pytest.fixture
 def product_service(product: Product) -> MagicMock:
@@ -18,13 +19,14 @@ def product_service(product: Product) -> MagicMock:
     service.read_unsyched_products.return_value = [product]
     return service
 
+
 def test_sync_sends_data(product_service: MagicMock, product: Product) -> None:
     sync = ProductSynchronization(service=product_service)
 
     with patch("src.infra.services.sync.requests.post") as mock_post:
         mock_post.side_effect = [
             MagicMock(status_code=200, json=lambda: {"access_token": "fake-token"}),
-            MagicMock(status_code=201)
+            MagicMock(status_code=201),
         ]
 
         sync.sync()
