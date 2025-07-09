@@ -1,6 +1,6 @@
 import requests
 
-from tests.conftest import BASE_URL, PASSWORD, USERNAME
+from tests.e2e.conftest import BASE_URL, PASSWORD, USERNAME
 
 
 def test_auth_should_success() -> None:

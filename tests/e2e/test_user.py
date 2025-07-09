@@ -1,6 +1,6 @@
 import requests
 
-from tests.conftest import BASE_URL
+from tests.e2e.conftest import BASE_URL
 from tests.fake import Fake
 
 

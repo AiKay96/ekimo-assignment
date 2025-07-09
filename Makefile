@@ -24,7 +24,7 @@ lint:
 	uv run mypy src tests
 
 test:
-	uv run pytest tests/unit tests/integration \
+	uv run pytest tests/core/unit tests/core/integration \
 		--cov \
 		--last-failed \
 		--approvaltests-use-reporter='PythonNative'
@@ -34,7 +34,7 @@ test-e2e:
 		--approvaltests-use-reporter='PythonNative'
 
 test-ci:
-	uv run pytest tests/unit tests/integration
+	uv run pytest tests/core/unit tests/core/integration
 
 run:
 	uv run -m src.runner run

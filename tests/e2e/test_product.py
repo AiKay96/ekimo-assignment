@@ -4,7 +4,7 @@ import pandas
 import pytest
 import requests
 
-from tests.conftest import BASE_URL, PASSWORD, USERNAME
+from tests.e2e.conftest import BASE_URL, PASSWORD, USERNAME
 from tests.fake import Fake
 
 
