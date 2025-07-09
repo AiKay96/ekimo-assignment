@@ -41,3 +41,9 @@ run:
 
 sync:
 	uv run -m src.runner sync
+
+build:
+	docker build -t ekimo . 
+ 
+ up:
+	docker compose up --build
