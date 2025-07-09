@@ -16,11 +16,13 @@ class ProductService:
         products = self._parse_products(df)
         self.repo.update_many(products)
 
-    def filter_products(self, file: BytesIO, filename: str) -> list[Product]:
-        df = self._read_file(file, filename)
-        source = self._parse_products(df)
-        target = self.repo.read_all()
-        return self._filter_updated_or_new(target, source)
+    def sync_products(self, products: list[Product]) -> None:
+        for product in products:
+            product.is_synched = True
+        self.repo.update_many(products)
+
+    def read_unsyched_products(self) -> list[Product]:
+        return self.repo.read_many_unsynched()
 
     @staticmethod
     def _read_file(file: BytesIO, filename: str) -> pandas.DataFrame:
@@ -42,24 +44,3 @@ class ProductService:
             )
             for _, row in df.iterrows()
         ]
-
-    @staticmethod
-    def _filter_updated_or_new(
-        target: list[Product], source: list[Product]
-    ) -> list[Product]:
-        target_map = {product.barcode: product for product in target}
-
-        return [
-            product
-            for product in source
-            if (target_product := target_map.get(product.barcode)) is None
-            or ProductService._has_changed(product, target_product)
-        ]
-
-    @staticmethod
-    def _has_changed(product_1: Product, product_2: Product) -> bool:
-        return product_1.barcode == product_2.barcode and (
-            product_1.name != product_2.name
-            or product_1.price != product_2.price
-            or product_1.quantity != product_2.quantity
-        )

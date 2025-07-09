@@ -39,8 +39,8 @@ class ProductRepository:
             except SQLAlchemyError:
                 self.db.rollback()
 
-    def read_all(self) -> list[Product]:
-        products = self.db.query(ProductModel).all()
+    def read_many_unsynched(self) -> list[Product]:
+        products = self.db.query(Product).filter_by(is_synced=False).all()
         return [
             Product(
                 id=product.id,
@@ -49,7 +49,7 @@ class ProductRepository:
                 quantity=product.quantity,
                 last_updated=product.last_updated,
                 barcode=product.barcode,
-                is_synched=product.is_synced,
+                is_synched=product.is_synched,
             )
             for product in products
         ]

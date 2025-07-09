@@ -56,7 +56,7 @@ def test_protected_requires_token(client: TestClient) -> None:
     df.to_csv(buffer, index=False)
     buffer.seek(0)
 
-    response = client.post(
+    response = client.put(
         "/products",
         files={"file": ("products.csv", buffer, "text/csv")},
     )
@@ -76,7 +76,7 @@ def test_should_access_with_token(client: TestClient) -> None:
     df.to_csv(buffer, index=False)
     buffer.seek(0)
 
-    response = client.post(
+    response = client.put(
         "/products",
         files={"file": ("products.csv", buffer, "text/csv")},
         headers={"Authorization": f"Bearer {token}"},
