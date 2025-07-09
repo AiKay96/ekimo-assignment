@@ -8,15 +8,17 @@ This is a FastAPI application that lets users upload product data using CSV or E
 
 ## Built With
 
-* [FastAPI](https://fastapi.tiangolo.com/)
-* [PostgreSQL](https://www.postgresql.org/)
-* [SQLAlchemy](https://www.sqlalchemy.org/)
-* [Alembic](https://alembic.sqlalchemy.org/)
-* [Docker](https://www.docker.com/)
-* [APScheduler](https://apscheduler.readthedocs.io/en/stable/)
-* [pytest](https://docs.pytest.org/)
-* [Ruff](https://docs.astral.sh/ruff/)
-* [Mypy](https://mypy-lang.org/)
+* [FastAPI](https://fastapi.tiangolo.com/) – Web framework for building APIs
+* [uv](https://github.com/astral-sh/uv) – Ultra-fast Python package manager
+* [PostgreSQL](https://www.postgresql.org/) – Open-source relational database
+* [SQLAlchemy](https://www.sqlalchemy.org/) – ORM for database models and queries
+* [Alembic](https://alembic.sqlalchemy.org/) – Database migrations tool
+* [Docker](https://www.docker.com/) – Containerization platform
+* [APScheduler](https://apscheduler.readthedocs.io/en/stable/) – Job scheduling for background tasks
+* [pytest](https://docs.pytest.org/) – Testing framework
+* [Ruff](https://docs.astral.sh/ruff/) – Fast Python linter and formatter
+* [Mypy](https://mypy-lang.org/) – Static type checker
+* [GitHub Actions](https://github.com/features/actions) – CI/CD automation
 
 ---
 
