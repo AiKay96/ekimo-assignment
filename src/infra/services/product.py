@@ -17,9 +17,7 @@ class ProductService:
         self.repo.update_many(products)
 
     def sync_products(self, products: list[Product]) -> None:
-        for product in products:
-            product.is_synched = True
-        self.repo.update_many(products, synching=True)
+        self.repo.mark_as_synced(products)
 
     def read_unsyched_products(self) -> list[Product]:
         return self.repo.read_many_unsynched()

@@ -12,7 +12,7 @@ from src.infra.models.product import Product as ProductModel
 class ProductRepository:
     db: Session
 
-    def update_many(self, products: list[Product], synching: bool = False) -> None:
+    def update_many(self, products: list[Product]) -> None:
         for product in products:
             try:
                 existing = (
@@ -25,8 +25,6 @@ class ProductRepository:
                     existing.price = product.price
                     existing.quantity = product.quantity
                     existing.last_updated = datetime.utcnow()
-                    if synching:
-                        existing.is_synced = True
                 else:
                     product_model = ProductModel(
                         name=product.name,
@@ -34,12 +32,12 @@ class ProductRepository:
                         quantity=product.quantity,
                         last_updated=datetime.utcnow(),
                         barcode=product.barcode,
-                        is_synced=synching,
                     )
                     self.db.add(product_model)
                 self.db.commit()
             except SQLAlchemyError:
                 self.db.rollback()
+        self.db.commit()
 
     def read_many_unsynched(self) -> list[Product]:
         products = self.db.query(ProductModel).filter_by(is_synced=False).all()
@@ -55,3 +53,17 @@ class ProductRepository:
             )
             for product in products
         ]
+
+    def mark_as_synced(self, products: list[Product]) -> None:
+        try:
+            unsynced_models = (
+                self.db.query(ProductModel).filter_by(is_synced=False).all()
+            )
+            unsynced_map = {model.barcode: model for model in unsynced_models}
+            for product in products:
+                model = unsynced_map.get(product.barcode)
+                if model:
+                    model.is_synced = True
+            self.db.commit()
+        except SQLAlchemyError:
+            self.db.rollback()
