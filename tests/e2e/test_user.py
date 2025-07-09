@@ -1,10 +1,7 @@
 import requests
-import pytest
 
-from src.runner.config import settings
+from tests.conftest import BASE_URL
 from tests.fake import Fake
-
-BASE_URL = settings.base_url
 
 
 def test_should_create_user() -> None:

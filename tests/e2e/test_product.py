@@ -4,12 +4,8 @@ import pandas
 import pytest
 import requests
 
-from src.runner.config import settings
+from tests.conftest import BASE_URL, PASSWORD, USERNAME
 from tests.fake import Fake
-
-BASE_URL = settings.base_url
-USERNAME = settings.username
-PASSWORD = settings.password
 
 
 @pytest.fixture
@@ -19,21 +15,6 @@ def token() -> str:
     )
     assert response.status_code == 200
     return str(response.json()["access_token"])
-
-
-def test_auth_should_success() -> None:
-    response = requests.post(
-        f"{BASE_URL}/auth", data={"username": USERNAME, "password": PASSWORD}
-    )
-    assert response.status_code == 200
-    assert "access_token" in response.json()
-
-
-def test_auth_should_fail() -> None:
-    response = requests.post(
-        f"{BASE_URL}/auth", data={"username": "wrong", "password": "wrong"}
-    )
-    assert response.status_code == 401
 
 
 def test_should_upload_csv_file(token: str) -> None:

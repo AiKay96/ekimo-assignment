@@ -13,14 +13,18 @@ from src.infra.fastapi.products import product_api
 from src.infra.fastapi.users import user_api
 from src.infra.repositories.products import ProductRepository
 from src.infra.repositories.users import UserRepository
+from src.runner.config import settings
 from src.runner.db import Base
 from src.runner.setup import get_db
 
 load_dotenv()
-database_url = os.getenv(
+BASE_URL = settings.base_url
+USERNAME = settings.username
+PASSWORD = settings.password
+DATABASE_URL = os.getenv(
     "TEST_DATABASE_URL", "postgresql://admin:admin@localhost:5432/ekimo_test"
 )
-engine = create_engine(database_url, future=True)
+engine = create_engine(DATABASE_URL, future=True)
 TestingSessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
 
 

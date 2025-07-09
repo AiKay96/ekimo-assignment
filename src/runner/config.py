@@ -1,12 +1,9 @@
 import os
 from dataclasses import dataclass
 
-from dotenv import load_dotenv
-
 
 @dataclass
 class Settings:
-    load_dotenv()
     database_url: str = os.getenv(
         "DATABASE_URL", "postgresql://admin:admin@localhost:5432/ekimo"
     )
