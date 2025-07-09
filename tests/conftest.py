@@ -1,6 +1,8 @@
+import os
 from typing import Any
 
 import pytest
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
@@ -11,12 +13,14 @@ from src.infra.fastapi.products import product_api
 from src.infra.fastapi.users import user_api
 from src.infra.repositories.products import ProductRepository
 from src.infra.repositories.users import UserRepository
-from src.runner.config import settings
 from src.runner.db import Base
 from src.runner.setup import get_db
 
-settings.database_url = settings.database_url + "_test"
-engine = create_engine(settings.database_url, future=True)
+load_dotenv()
+database_url = os.getenv(
+    "TEST_DATABASE_URL", "postgresql://admin:admin@localhost:5432/ekimo_test"
+)
+engine = create_engine(database_url, future=True)
 TestingSessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
 
 
