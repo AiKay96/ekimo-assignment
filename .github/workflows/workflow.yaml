@@ -60,7 +60,7 @@ jobs:
         run: make install
 
       - name: Build and run services
-        run: docker-compose up -d --build
+        run: docker compose up -d --build
 
       - name: Run E2E tests
         run: make test-e2e
